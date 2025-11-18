@@ -4,12 +4,10 @@ namespace APP.Domain
 {
     public class Db : DbContext
     {
-        public DbSet<Category> Categories { get; set; }
-
-        public DbSet<Store> Stores { get; set; }
-        public DbSet<Product> Products { get; set; }
-
-        public DbSet<ProductStore> ProductStores { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
         public Db(DbContextOptions options) : base(options)
         {
