@@ -1,0 +1,28 @@
+﻿@* @model List<APP.Models.CategoryResponse> *@
+@model List<CategoryResponse>
+
+<h1>Categories</h1>
+
+<a asp-action="Create">Create Category</a>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Description</td>
+            <td>
+                @* <a href="/Categories/Details/1">Details</a>
+                @Html.ActionLink("Details", "Details", "Categories", new { id = item.Id }) *@
+                <a asp-controller="Categories" asp-action="Details" asp-route-id="@item.Id">
+                    Details
+                </a>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,38 @@
+﻿@inject IConfiguration configuration
+
+@{
+    ViewData["Title"] = "Home Page";
+    var name = "Çağıl Alsaç";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <p>@name</p>
+
+    @if(true)
+    {
+        <span>True</span>
+    }
+    else
+    {
+        <span>False</span>
+    }
+
+    @{
+        var list = new List<string>()
+        {
+            "Leo", "Luna", "Angel"
+        };
+    }
+    @foreach (var element in list)
+    {
+        @element
+        <br />
+    }
+
+    <hr />
+    <p>Version: @configuration["App:Version"]</p>
+    <p>Date: @configuration["App:Date"]</p>
+</div>
