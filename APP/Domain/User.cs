@@ -19,8 +19,8 @@ namespace APP.Domain
         public decimal Score { get; set; }
         public bool IsActive { get; set; }
         public string? Address { get; set; }
-        //public int? CountryId { get; set; }
-        //public int? CityId { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
         public int? GroupId { get; set; }
         public Group Group { get; set; }
 

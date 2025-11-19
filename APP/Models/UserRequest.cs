@@ -30,8 +30,8 @@ namespace APP.Models
         [DisplayName("Active")]
         public bool IsActive { get; set; }
         public string? Address { get; set; }
-        //public int? CountryId { get; set; }
-        //public int? CityId { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
 
         [DisplayName("Group")]
         public int? GroupId { get; set; }
