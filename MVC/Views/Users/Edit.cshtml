@@ -44,13 +44,13 @@
 		        <span asp-validation-for="UserName" class="text-danger"></span>
 	        </div>
         </div>
-        <div class="row mb-3">
-            <label asp-for="Password" class="col-2 col-form-label fw-bold"></label>
-	        <div class="col-10">
-	            <input asp-for="Password" class="form-control" />
-		        <span asp-validation-for="Password" class="text-danger"></span>
-	        </div>
-        </div>
+            <div class="row mb-3">
+                <label asp-for="Password" class="col-2 col-form-label fw-bold"></label>
+                <div class="col-10">
+                    <input asp-for="Password" type="password" autocomplete="new-password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
         <div class="row mb-3">
             <label asp-for="FirstName" class="col-2 col-form-label fw-bold"></label>
 	        <div class="col-10">
@@ -80,13 +80,6 @@
 	        </div>
         </div>
         <div class="row mb-3">
-            <label asp-for="RegistrationDate" class="col-2 col-form-label fw-bold"></label>
-	        <div class="col-10">
-		        <input asp-for="RegistrationDate" class="form-control @dateTimePickerClass" type="text" />
-		        <span asp-validation-for="RegistrationDate" class="text-danger"></span>
-	        </div>
-        </div>
-        <div class="row mb-3">
             <label asp-for="Score" class="col-2 col-form-label fw-bold"></label>
 	        <div class="col-10">
 	            <input asp-for="Score" class="form-control" />
@@ -104,20 +97,6 @@
 	        <div class="col-10">
 	            <input asp-for="Address" class="form-control" />
 		        <span asp-validation-for="Address" class="text-danger"></span>
-	        </div>
-        </div>
-        <div class="row mb-3">
-            <label asp-for="CountryId" class="col-2 col-form-label fw-bold"></label>
-	        <div class="col-10">
-	            <input asp-for="CountryId" class="form-control" />
-		        <span asp-validation-for="CountryId" class="text-danger"></span>
-	        </div>
-        </div>
-        <div class="row mb-3">
-            <label asp-for="CityId" class="col-2 col-form-label fw-bold"></label>
-	        <div class="col-10">
-	            <input asp-for="CityId" class="form-control" />
-		        <span asp-validation-for="CityId" class="text-danger"></span>
 	        </div>
         </div>
         <div class="row mb-3">
