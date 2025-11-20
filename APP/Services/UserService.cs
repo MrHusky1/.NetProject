@@ -3,6 +3,7 @@ using APP.Models;
 using CORE.APP.Models;
 using CORE.APP.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace APP.Services
 {
@@ -39,17 +40,19 @@ namespace APP.Services
                 //CountryId = u.CountryId,
                 //CityId = u.CityId,
                 GroupId = u.GroupId,
-               
+
 
                 IsActiveF = u.IsActive ? "Active" : "Inactive",
                 FullName = u.FirstName + " " + u.LastName,
-                GenderF = u.Gender.ToString(), // will assign Woman or Man
+
+                GenderF = u.Gender == Genders.Male ? "Male" : u.Gender == Genders.Female ? "Female" : "Unknown",
+
                 BirthDateF = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = u.RegistrationDate.ToString("MM/dd/yyyy"),
                 ScoreF = u.Score.ToString("N1"),
 
                 Roles = u.UserRoles.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList(),
-                //RoleIds = u.UserRoles.Select(ur => ur.RoleId).ToList()
+                // RoleIds = u.UserRoles.Select(ur => ur.RoleId).ToList()
 
             });
 
@@ -101,6 +104,7 @@ namespace APP.Services
                 Password = request.Password,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Gender = request.Gender,
                 BirthDate = request.BirthDate,
                 RegistrationDate = DateTime.Now,
                 Score = request.Score,
