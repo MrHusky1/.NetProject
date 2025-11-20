@@ -13,6 +13,11 @@ namespace APP.Services
 
         }
 
+        protected override IQueryable<Group> Query(bool isNoTracking = true)
+        {
+            return base.Query(isNoTracking).Include(g => g.Users);
+        }
+
         public List<GroupResponse> List()
         {
             var query = Query().Select(g => new GroupResponse

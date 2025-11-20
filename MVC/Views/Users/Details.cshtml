@@ -51,60 +51,52 @@
                 <input type="text" class="form-control-plaintext" value="@mask" readonly />
             </div>
     </div>
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.FullName)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.FullName)
+            </div>
+        </div>
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.GenderF)
         </div>
         <div class="col-10">
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.GenderF)
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.BirthDateF)
         </div>
         <div class="col-10">
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.BirthDateF)
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.Gender)
+            @Html.DisplayNameFor(model => model.RegistrationDateF)
         </div>
         <div class="col-10">
-            @Html.DisplayFor(model => model.Gender)
+            @Html.DisplayFor(model => model.RegistrationDateF)
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.BirthDate)
+            @Html.DisplayNameFor(model => model.ScoreF)
         </div>
         <div class="col-10">
-            @Html.DisplayFor(model => model.BirthDate)
+            @Html.DisplayFor(model => model.ScoreF)
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.RegistrationDate)
+            @Html.DisplayNameFor(model => model.IsActiveF)
         </div>
         <div class="col-10">
-            @Html.DisplayFor(model => model.RegistrationDate)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.Score)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.Score)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.IsActive)
+            @Html.DisplayFor(model => model.IsActiveF)
         </div>
     </div>
     <div class="row mb-3">
@@ -123,6 +115,25 @@
             @Html.DisplayFor(model => model.GroupTitle)
         </div>
     </div>
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                <b>@Html.DisplayNameFor(model => model.Roles)</b>
+            </div>
+            <div class="col-10">
+                @* Way 1: *@
+                @* @{
+                var roles = "";
+                foreach (var role in Model.Roles)
+                {
+                    roles = role + ", ";    
+                }
+                roles = roles.TrimEnd(',', ' ');
+            }
+            @roles *@
+                @* Way 2: *@
+                @string.Join(", ", Model.Roles)
+            </div>
+        </div>
 
 @* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. 
     Raw HTML Helper is used in case string parameter may have HTML tags. *@
