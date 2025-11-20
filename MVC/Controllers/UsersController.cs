@@ -36,10 +36,12 @@ namespace MVC.Controllers
             //_EntityService = EntityService;
         }
 
-        private void SetViewData()
+        private void SetViewData(List<int> selectedRoleIds = null)
         {
             ViewData["GroupId"] = new SelectList(_groupService.List(), "Id", "Title");
-            ViewBag.RoleIds = new MultiSelectList(_roleService.List(), "Id", "Name");
+
+            var allRoles = _roleService.List();
+            ViewBag.RoleIds = new MultiSelectList(_roleService.List(), "Id", "Name", selectedRoleIds);
         }
 
         private void SetTempData(string message, string key = "Message")
@@ -98,7 +100,7 @@ namespace MVC.Controllers
         {
             // Get item to edit service logic:
             var item = _userService.Edit(id);
-            SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
+            SetViewData(item.RoleIds); // set ViewData dictionary to carry extra data other than the model to the view
             return View(item); // return request as model to the Edit view
         }
 
