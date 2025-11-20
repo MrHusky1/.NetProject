@@ -54,6 +54,8 @@ namespace APP.Services
                 Roles = u.UserRoles.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList(),
                 // RoleIds = u.UserRoles.Select(ur => ur.RoleId).ToList()
 
+                GroupTitle = u.Group != null ? u.Group.Title : string.Empty,
+
             });
 
             return query.ToList();
@@ -87,8 +89,9 @@ namespace APP.Services
                 BirthDateF = entity.BirthDate.HasValue ? entity.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = entity.RegistrationDate.ToString("MM/dd/yyyy"),
                 ScoreF = entity.Score.ToString("N1"),
+                GroupTitle = entity.Group != null ? entity.Group.Title : string.Empty,
 
-                 Roles = entity.UserRoles?.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList() ?? new List<string>(),
+                Roles = entity.UserRoles?.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList() ?? new List<string>(),
                // RoleIds = entity.UserRoles?.Select(ur => ur.RoleId).ToList() ?? new List<int>()
 
             };
@@ -142,7 +145,7 @@ namespace APP.Services
             entity.Address = request.Address;
             entity.CountryId = request.CountryId;
             entity.CityId = request.CityId;
-            //entity.GroupId = request.GroupId;
+            entity.GroupId = request.GroupId;
             //entity.RoleIds = request.RoleIds;
 
             entity.UserRoles = request.RoleIds?.Select(roleId => new UserRole
@@ -164,11 +167,7 @@ namespace APP.Services
             if (entity is null)
                 return Error("User not found!");
 
-            var relatedRoles = Query<UserRole>().Where(ur => ur.UserId == id).ToList();
-            if (relatedRoles.Any())
-            {
-                Delete(relatedRoles);
-            }
+            Delete(entity.UserRoles);
 
             Delete(entity);
             return Success("User deleted successfully.", entity.Id);
