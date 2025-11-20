@@ -186,6 +186,7 @@ namespace APP.Services
                 Password = entity.Password,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
+                Gender = entity.Gender,
                 BirthDate = entity.BirthDate,
                 Score = entity.Score,
                 IsActive = entity.IsActive,

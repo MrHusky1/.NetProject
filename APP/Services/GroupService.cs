@@ -24,6 +24,8 @@ namespace APP.Services
             {
                 Id = g.Id,
                 Title = g.Title,
+                UserCount = g.Users.Count,
+                UserNames = g.Users.Select(u => u.UserName).ToList()
             });
 
             return query.ToList();
@@ -39,6 +41,8 @@ namespace APP.Services
             {
                 Id = entity.Id,
                 Title = entity.Title,
+                UserCount = entity.Users.Count,
+                UserNames = entity.Users.Select(u => u.UserName).ToList()
             };
         }
 

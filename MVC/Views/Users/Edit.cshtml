@@ -75,7 +75,7 @@
         <div class="row mb-3">
             <label asp-for="BirthDate" class="col-2 col-form-label fw-bold"></label>
 			<div class="col-10">
-				<input asp-for="BirthDate" class="form-control @dateTimePickerClass" type="text" />
+				<input asp-for="BirthDate" type="date" class="form-control @dateTimePickerClass" value="@(Model.BirthDate?.ToString("MM/dd/yyyy"))" type="text" />
 				<span asp-validation-for="BirthDate" class="text-danger"></span>
 			</div>
         </div>

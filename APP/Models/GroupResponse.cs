@@ -6,6 +6,7 @@ namespace APP.Models
     {
         public string Title { get; set; }
 
-        public string UserNames { get; set; }
+        public int UserCount { get; set; }
+        public List<string> UserNames { get; set; } = new List<string>();
     }
 }
