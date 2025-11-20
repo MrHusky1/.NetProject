@@ -44,13 +44,13 @@
 		        <span asp-validation-for="UserName" class="text-danger"></span>
 	        </div>
         </div>
-            <div class="row mb-3">
-                <label asp-for="Password" class="col-2 col-form-label fw-bold"></label>
-                <div class="col-10">
-                    <input asp-for="Password" type="password" autocomplete="new-password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-            </div>
+        <div class="row mb-3">
+            <label asp-for="Password" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+                <input asp-for="Password" type="password" autocomplete="new-password" class="form-control" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
+        </div>
         <div class="row mb-3">
             <label asp-for="FirstName" class="col-2 col-form-label fw-bold"></label>
 	        <div class="col-10">
@@ -70,13 +70,6 @@
 	        <div class="col-10">
                     <select asp-for="Gender" class="form-select" asp-items="Html.GetEnumSelectList<Genders>()"></select>
                     <span asp-validation-for="Gender" class="text-danger"></span>
-	        </div>
-        </div>
-        <div class="row mb-3">
-            <label asp-for="BirthDate" class="col-2 col-form-label fw-bold"></label>
-	        <div class="col-10">
-		        <input asp-for="BirthDate" class="form-control @dateTimePickerClass" type="text" />
-		        <span asp-validation-for="BirthDate" class="text-danger"></span>
 	        </div>
         </div>
         <div class="row mb-3">

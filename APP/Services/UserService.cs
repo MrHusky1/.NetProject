@@ -130,19 +130,19 @@ namespace APP.Services
             if (entity is null)
                 return Error("User not found!");
 
-
+            entity.Id = request.Id;
             entity.UserName = request.UserName;
-            entity.Password = request.Password;
-            entity.FirstName = request.FirstName;
-            entity.LastName = request.LastName;
-            entity.BirthDate = request.BirthDate;
-            entity.Score = request.Score;
+            //entity.Password = request.Password;
+            //entity.FirstName = request.FirstName;
+            //entity.LastName = request.LastName;
+            //entity.BirthDate = request.BirthDate;
+            //entity.Score = request.Score;
             entity.IsActive = request.IsActive;
-            entity.Address = request.Address;
+            //entity.Address = request.Address;
             //entity.CountryId = request.CountryId;
             //entity.CityId = request.CityId;
-            entity.GroupId = request.GroupId;
-            entity.RoleIds = request.RoleIds;
+            //entity.GroupId = request.GroupId;
+            //entity.RoleIds = request.RoleIds;
 
 
             Update(entity);
