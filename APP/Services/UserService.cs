@@ -39,13 +39,18 @@ namespace APP.Services
                 //CountryId = u.CountryId,
                 //CityId = u.CityId,
                 GroupId = u.GroupId,
+               
 
                 IsActiveF = u.IsActive ? "Active" : "Inactive",
                 FullName = u.FirstName + " " + u.LastName,
                 GenderF = u.Gender.ToString(), // will assign Woman or Man
                 BirthDateF = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = u.RegistrationDate.ToString("MM/dd/yyyy"),
-                ScoreF = u.Score.ToString("N1")
+                ScoreF = u.Score.ToString("N1"),
+
+                Roles = u.UserRoles.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList(),
+                //RoleIds = u.UserRoles.Select(ur => ur.RoleId).ToList()
+
             });
 
             return query.ToList();
@@ -78,7 +83,11 @@ namespace APP.Services
                 GenderF = entity.Gender.ToString(), 
                 BirthDateF = entity.BirthDate.HasValue ? entity.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = entity.RegistrationDate.ToString("MM/dd/yyyy"),
-                ScoreF = entity.Score.ToString("N1")
+                ScoreF = entity.Score.ToString("N1"),
+
+                 Roles = entity.UserRoles?.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList() ?? new List<string>(),
+               // RoleIds = entity.UserRoles?.Select(ur => ur.RoleId).ToList() ?? new List<int>()
+
             };
         }
 
@@ -100,6 +109,7 @@ namespace APP.Services
                 //CountryId = request.CountryId,
                 //CityId = request.CityId,
                 GroupId = request.GroupId,
+                RoleIds = request.RoleIds,
             };
 
             Create(entity);
@@ -128,6 +138,7 @@ namespace APP.Services
             //entity.CountryId = request.CountryId;
             //entity.CityId = request.CityId;
             entity.GroupId = request.GroupId;
+            entity.RoleIds = request.RoleIds;
 
 
             Update(entity);
@@ -165,6 +176,7 @@ namespace APP.Services
                 //CountryId = entity.CountryId,
                 //CityId = entity.CityId,
                 GroupId = entity.GroupId,
+                RoleIds = entity.RoleIds
             };
         }
     }

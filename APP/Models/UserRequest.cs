@@ -25,6 +25,9 @@ namespace APP.Models
 
         [DisplayName("Birth Date")]
         public DateTime? BirthDate { get; set; }
+
+        [Range(0, 5, ErrorMessage = "{0} must be between {1} and {2}!")] 
+        [Required(ErrorMessage = "{0} is required!")]
         public decimal Score { get; set; }
 
         [DisplayName("Active")]
