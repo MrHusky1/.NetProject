@@ -130,6 +130,12 @@ namespace APP.Services
             if (entity is null)
                 return Error("User not found!");
 
+            var existingRoles = Query<UserRole>().Where(ur => ur.UserId == request.Id).ToList();
+            if (existingRoles.Any())
+            {
+                Delete(existingRoles);
+            }
+
             entity.Id = request.Id;
             entity.UserName = request.UserName;
             //entity.Password = request.Password;
@@ -144,6 +150,13 @@ namespace APP.Services
             //entity.GroupId = request.GroupId;
             //entity.RoleIds = request.RoleIds;
 
+            entity.UserRoles = request.RoleIds?.Distinct().Select(roleId => new UserRole
+            {
+                UserId = entity.Id,
+                RoleId = roleId
+            }).ToList() ?? new List<UserRole>();
+
+            entity.RoleIds = request.RoleIds;
 
             Update(entity);
             return Success("User updated successfully.", entity.Id);
@@ -155,6 +168,12 @@ namespace APP.Services
 
             if (entity is null)
                 return Error("User not found!");
+
+            var relatedRoles = Query<UserRole>().Where(ur => ur.UserId == id).ToList();
+            if (relatedRoles.Any())
+            {
+                Delete(relatedRoles);
+            }
 
             Delete(entity);
             return Success("User deleted successfully.", entity.Id);
