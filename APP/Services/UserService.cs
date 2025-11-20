@@ -40,10 +40,12 @@ namespace APP.Services
                 //CityId = u.CityId,
                 GroupId = u.GroupId,
 
-                FullName = u.UserName + " " + u.LastName,
-                BirthDateF = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("MM/dd/yyyy : HH:mm:ss") : null,
-                RegistrationDateF = u.RegistrationDate.ToString("MM/dd/yyyy : HH:mm:ss"),
                 IsActiveF = u.IsActive ? "Active" : "Inactive",
+                FullName = u.FirstName + " " + u.LastName,
+                GenderF = u.Gender.ToString(), // will assign Woman or Man
+                BirthDateF = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
+                RegistrationDateF = u.RegistrationDate.ToString("MM/dd/yyyy"),
+                ScoreF = u.Score.ToString("N1")
             });
 
             return query.ToList();
@@ -71,18 +73,19 @@ namespace APP.Services
                 //CityId = entity.CityId,
                 GroupId = entity.GroupId,
 
-                FullName = entity.UserName + " " + entity.LastName,
-                BirthDateF = entity.BirthDate.HasValue ? entity.BirthDate.Value.ToString("MM/dd/yyyy : HH:mm:ss") : null,
-                RegistrationDateF = entity.RegistrationDate.ToString("MM/dd/yyyy : HH:mm:ss"),
                 IsActiveF = entity.IsActive ? "Active" : "Inactive",
+                FullName = entity.FirstName + " " + entity.LastName,
+                GenderF = entity.Gender.ToString(), 
+                BirthDateF = entity.BirthDate.HasValue ? entity.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
+                RegistrationDateF = entity.RegistrationDate.ToString("MM/dd/yyyy"),
+                ScoreF = entity.Score.ToString("N1")
             };
         }
 
         public CommandResponse Create(UserRequest request)
         {
-            if (Query().Any(u => u.FirstName == request.FirstName.Trim() && u.LastName == request.LastName.Trim()))
-                return Error("User with the same first and last name exists!");
-
+            if (Query().Any(u => u.UserName == request.UserName.Trim() && u.IsActive == request.IsActive))
+                return Error("Active user with the same user name exists!");
             var entity = new User
             {
                 UserName = request.UserName,
