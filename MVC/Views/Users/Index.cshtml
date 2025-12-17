@@ -84,7 +84,8 @@
 					        </td>
                             <td>
                                 @{
-                                    var mask = "••••••••";
+                                    var mask = new string('*', item.Password.Length);
+
                                 }
                                 <input type="text" class="form-control-plaintext" value="@mask" readonly />
                             </td>
