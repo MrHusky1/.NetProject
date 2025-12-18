@@ -1,5 +1,6 @@
 ﻿using CORE.APP.Domain;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APP.Domain
 {
@@ -13,5 +14,14 @@ namespace APP.Domain
         public decimal Price { get; set; }
         public bool IsTopSeller { get; set; }
         public int AuthorId { get; set; }
+
+        public List<BookGenre> BookGenres { get; set; } = new List<BookGenre>();
+
+        [NotMapped]
+        public List<int> GenreIds
+        {
+            get => BookGenres.Select(userRoleEntity => userRoleEntity.GenreId).ToList();
+            set => BookGenres = value?.Select(genreId => new BookGenre() { GenreId = genreId }).ToList();
+        }
     }
 }

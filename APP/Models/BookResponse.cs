@@ -19,6 +19,6 @@ namespace APP.Models
         public string PriceF { get; set; }
         [DisplayName("Top Seller?")]
         public string IsTopSellerF { get; set; }
-
+        public List<string> Genres { get; set; }
     }
 }

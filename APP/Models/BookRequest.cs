@@ -18,5 +18,8 @@ namespace APP.Models
         public bool IsTopSeller { get; set; }
         [DisplayName("Author's ID")]
         public int AuthorId { get; set; }
+
+        [DisplayName("Genres")]
+        public List<int> GenreIds { get; set; }
     }
 }
