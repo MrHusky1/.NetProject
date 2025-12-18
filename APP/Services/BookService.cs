@@ -18,35 +18,35 @@ namespace APP.Services
         {
             // Eagerly load all relations needed for List() and Item()
             return base.Query(isNoTracking)
-                .Include(u => u.BookGenres);
+                .Include(b => b.BookGenres);
         }
 
         public List<BookResponse> List()
         {
-            var query = Query().Select(u => new BookResponse
+            var query = Query().Select(b => new BookResponse
             {
-                Id = u.Id,
-                Name = u.Name,
-                NumberOfPages = u.NumberOfPages,
-                PublishDate = u.PublishDate,
-                Price = u.Price,
-                IsTopSeller = u.IsTopSeller,
-                AuthorId = u.AuthorId,
+                Id = b.Id,
+                Name = b.Name,
+                NumberOfPages = b.NumberOfPages,
+                PublishDate = b.PublishDate,
+                Price = b.Price,
+                IsTopSeller = b.IsTopSeller,
+                AuthorId = b.AuthorId,
 
-                PublishDateF = u.PublishDate.ToString("MM/dd/yyyy"),
+                PublishDateF = b.PublishDate.ToString("MM/dd/yyyy"),
 
-                PriceF = u.Price.ToString("N2"),
+                PriceF = b.Price.ToString("N2"),
 
-                IsTopSellerF = u.IsTopSeller ? "Top Seller" : "",
+                IsTopSellerF = b.IsTopSeller ? "Top Seller" : "",
 
-                Genres = u.BookGenres.Select(ur => ur.GenreId != null ? ur.Genre.Name : string.Empty).ToList(),
+                Genres = b.BookGenres.Select(bg => bg.GenreId != null ? bg.Genre.Name : string.Empty).ToList(),
             });
 
             return query.ToList();
         }
         public BookResponse Item(int id)
         {
-            var entity = Query().SingleOrDefault(u => u.Id == id);
+            var entity = Query().SingleOrDefault(b => b.Id == id);
 
             if (entity is null)
                 return null;
@@ -67,13 +67,13 @@ namespace APP.Services
 
                 IsTopSellerF = entity.IsTopSeller ? "Top Seller" : "",
 
-                Genres = entity.BookGenres.Select(ur => ur.GenreId != null ? ur.Genre.Name : string.Empty).ToList(),
+                Genres = entity.BookGenres.Select(bg => bg.GenreId != null ? bg.Genre.Name : string.Empty).ToList(),
             };
         }
 
         public CommandResponse Create(BookRequest request)
         {
-            if (Query().Any(u => u.Name == request.Name.Trim() && u.AuthorId == request.AuthorId))
+            if (Query().Any(b => b.Name == request.Name.Trim() && b.AuthorId == request.AuthorId))
                 return Error("This book already exists!");
             var entity = new Book
             {
@@ -92,10 +92,10 @@ namespace APP.Services
 
         public CommandResponse Update(BookRequest request)
         {
-            if (Query().Any(u => u.Id != request.Id && u.Name == request.Name.Trim() && u.AuthorId == request.AuthorId))
+            if (Query().Any(b => b.Id != request.Id && b.Name == request.Name.Trim() && b.AuthorId == request.AuthorId))
                 return Error("This book already exists!");
 
-            var entity = Query(false).SingleOrDefault(u => u.Id == request.Id);
+            var entity = Query(false).SingleOrDefault(b => b.Id == request.Id);
 
             if (entity is null)
                 return Error("Book not found!");

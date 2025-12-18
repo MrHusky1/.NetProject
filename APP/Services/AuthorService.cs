@@ -1,12 +1,109 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CORE.APP.Services;
+using APP.Domain;
+using APP.Models;
+using Microsoft.EntityFrameworkCore;
+using CORE.APP.Models;
 
 namespace APP.Services
 {
-    internal class AuthorService
+    public class AuthorService : Service<Author>, IService<AuthorRequest, AuthorResponse>
     {
+        public AuthorService(DbContext db) : base(db)
+        {
+
+        }
+
+        protected override IQueryable<Author> Query(bool isNoTracking = true)
+        {
+            return base.Query(isNoTracking);
+        }
+
+        public List<AuthorResponse> List()
+        {
+            var query = Query().Select(a => new AuthorResponse
+            {
+                Id = a.Id,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+
+                FullName = a.FirstName + " " + a.LastName,
+            });
+
+            return query.ToList();
+        }
+        public AuthorResponse Item(int id)
+        {
+            var entity = Query().SingleOrDefault(a => a.Id == id);
+
+            if (entity is null)
+                return null;
+
+            return new AuthorResponse()
+            {
+                Id = entity.Id,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+
+                FullName = entity.FirstName + " " + entity.LastName,
+            };
+        }
+
+        public CommandResponse Create(AuthorRequest request)
+        {
+            if (Query().Any(a => a.FirstName == request.FirstName.Trim() && a.LastName == request.LastName.Trim()))
+                return Error("Author with the same first and last name exists!");
+
+            var entity = new Author
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+            };
+
+            Create(entity);
+            return Success("Author created successfully.", entity.Id);
+        }
+
+        public CommandResponse Update(AuthorRequest request)
+        {
+            if (Query().Any(a => a.FirstName == request.FirstName.Trim() && a.LastName == request.LastName.Trim()))
+                return Error("Author with the same first and last name exists!");
+
+            var entity = Query(false).SingleOrDefault(a => a.Id == request.Id);
+
+            if (entity is null)
+                return Error("Author not found!");
+
+
+            entity.FirstName = request.FirstName;
+            entity.LastName = request.LastName;
+
+            Update(entity);
+            return Success("Author updated successfully.", entity.Id);
+        }
+
+        public CommandResponse Delete(int id)
+        {
+            var entity = Query(false).SingleOrDefault(a => a.Id == id);
+
+            if (entity is null)
+                return Error("Author not found!");
+
+            Delete(entity);
+            return Success("Author deleted successfully.", entity.Id);
+        }
+
+        public AuthorRequest Edit(int id)
+        {
+            var entity = Query(false).SingleOrDefault(a => a.Id == id);
+            if (entity is null)
+                return null;
+
+            return new AuthorRequest()
+            {
+                Id = entity.Id,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+            };
+        }
     }
 }
