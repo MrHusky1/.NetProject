@@ -1,9 +1,11 @@
 ﻿using CORE.APP.Models;
+using System.ComponentModel;
 
 namespace APP.Models
 {
     public class GenreResponse : Response
     {
+        [DisplayName("Name")]
         public string Name { get; set; }
     }
 }
