@@ -38,7 +38,7 @@ namespace APP.Services
             return new GenreResponse()
             {
                 Id = entity.Id,
-                Name = g.Name,
+                Name = entity.Name,
             };
         }
 

@@ -10,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString(nameof(Db));
 builder.Services.AddDbContext<DbContext, Db>(options => options.UseSqlite(connectionString));
 
+builder.Services.AddScoped<IService<AuthorRequest, AuthorResponse>, AuthorService>();
+builder.Services.AddScoped<IService<BookRequest, BookResponse>, BookService>();
+builder.Services.AddScoped<IService<GenreRequest, GenreResponse>, GenreService>();
 builder.Services.AddScoped<IService<GroupRequest, GroupResponse>, GroupService>();
 builder.Services.AddScoped<IService<RoleRequest, RoleResponse>, RoleService>();
 builder.Services.AddScoped<IService<UserRequest, UserResponse>, UserService>();
