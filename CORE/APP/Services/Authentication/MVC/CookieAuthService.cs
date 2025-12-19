@@ -70,3 +70,4 @@ namespace CORE.APP.Services.Authentication.MVC
             await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
+}
