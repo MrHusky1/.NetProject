@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿﻿@{
+    @inject IConfiguration configuration
+    // This injects the IConfiguration service directly into the view making configuration settings (appsettings.json)
+    // accessible without controller dependencies. IConfiguration service may also be injected to the controllers.
+    // configuration is the local variable name that will be used in this view such as to reach the Title section
+    // of appsettings.json, configuration["Title"] will be used as below.
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,7 +30,56 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                         </li>
+
+                        @* Only authenticated users can see the Users and Groups links: *@
+                        @* Way 1: *@
+                        @* @if (User.IsInRole("Admin") || User.IsInRole("User")) *@
+                        @* Way 2: since we have only 2 roles, we don't need to check all the roles *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
+                            </li>
+
+                        }
+
                     </ul>
+
+                    @* User authentication links: will be displayed at the right side of the menu by the below Bootstrap classes *@
+                    <div class="navbar-text">
+                        <ul class="navbar-nav me-auto">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+
+                                    @* Way 1: *@
+                                    @* <span>@User.Identity.Name</span> *@
+                                    @* Way 2: optional link to direct the user to his/her user details *@
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details"
+                                        asp-route-id="@User.Claims.SingleOrDefault(claim => claim.Type == "Id")?.Value">
+                                        @* Getting the user's Id from the claims to direct to user to the user details with id route value *@
+                                        @User.Identity.Name
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

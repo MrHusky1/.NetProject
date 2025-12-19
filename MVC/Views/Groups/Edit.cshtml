@@ -33,9 +33,9 @@
         @TempData["Message"]
     </p>
     }
-    <form asp-action="Edit" autocomplete="off" enctype="multipart/form-data">
+    <form asp-action="Edit" autocomplete="off">
 	    @Html.AntiForgeryToken()
-        <div asp-validation-summary="All" class="text-danger"></div> @* Use ModelOnly instead of All to see only service response messages in validation summary *@
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div> @* Use ModelOnly instead of All to see only service response messages in validation summary *@
         <div class="row mb-3">
             <label asp-for="Title" class="col-2 col-form-label fw-bold"></label>
 	        <div class="col-10">
@@ -63,8 +63,11 @@
 		        &nbsp;&nbsp;
                 <button type="reset" class="btn btn-outline-primary">Reset</button>
 		        &nbsp;&nbsp;
-                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-                &nbsp;&nbsp;
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                    @:&nbsp; &nbsp;
+                }
 		        <a asp-action="Index">Back to List</a>
 	        </div>
         </div>
@@ -74,5 +77,5 @@
 
 @section Scripts {
     @* Can be uncommented to use client-side validation using jQuery instead of server-side validation. *@
-    @*<partial name="_ValidationScriptsPartial" />*@
+    <partial name="_ValidationScriptsPartial" />
 }

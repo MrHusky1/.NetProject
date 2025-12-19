@@ -1,13 +1,15 @@
 ﻿#nullable disable
+using APP.Models;
+using CORE.APP.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CORE.APP.Services;
-using APP.Models;
 
 // Generated from Custom MVC Template.
 
 namespace MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AuthorsController : Controller
     {
         // Service injections:

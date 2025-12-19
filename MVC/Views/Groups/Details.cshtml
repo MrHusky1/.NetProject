@@ -40,14 +40,6 @@
             @Html.DisplayFor(model => model.Title)
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.UserNames)
-        </div>
-        <div class="col-10">
-            @string.Join(", ", Model.UserNames)
-        </div>
-    </div>
 
 @* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. 
     Raw HTML Helper is used in case string parameter may have HTML tags. *@
@@ -63,8 +55,11 @@
     *@
 
     <hr /> 
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>&nbsp;|&nbsp;
-    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>&nbsp;|&nbsp;
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>@:&nbsp;|&nbsp;
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>@:&nbsp;|&nbsp;
+    }
     <a asp-action="Index">Back to List</a>
 </div>
 }
