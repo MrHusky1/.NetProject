@@ -74,8 +74,8 @@
             <label asp-for="Gender" class="col-2 col-form-label fw-bold"></label>
 	        <div class="col-10">
 		        <select asp-for="Gender" class="form-select">
-			        <option value="@((int)Genders.Woman)">@Genders.Woman</option>
-			        <option value="@((int)Genders.Man)">@Genders.Man</option>
+			        <option value="@((int)Genders.Female)">@Genders.Female</option>
+			        <option value="@((int)Genders.Male)">@Genders.Male</option>
 		        </select>
 		        <span asp-validation-for="Gender" class="text-danger"></span>
 	        </div>
