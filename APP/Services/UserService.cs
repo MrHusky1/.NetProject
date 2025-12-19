@@ -2,6 +2,7 @@
 using APP.Models;
 using CORE.APP.Models;
 using CORE.APP.Services;
+using CORE.APP.Services.Authentication.MVC;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -9,9 +10,13 @@ namespace APP.Services
 {
     public class UserService : Service<User>, IService<UserRequest, UserResponse>
     {
-        public UserService(DbContext db) : base(db)
-        {
 
+        private readonly ICookieAuthService _cookieAuthService;
+
+        public UserService(DbContext db, ICookieAuthService cookieAuthService) : base(db)
+        {
+            // The injected cookie authentication service is assigned to this field to be used in Login and Logout methods below.
+            _cookieAuthService = cookieAuthService;
         }
 
         protected override IQueryable<User> Query(bool isNoTracking = true)
@@ -196,6 +201,45 @@ namespace APP.Services
                 GroupId = entity.GroupId,
                 RoleIds = entity.RoleIds
             };
+        }
+
+        public async Task<CommandResponse> Login(UserLoginRequest request)
+        {
+            var entity = Query().SingleOrDefault(
+                u => u.UserName == request.UserName
+                  && u.Password == request.Password
+                  && u.IsActive);
+
+            if (entity is null)
+                return Error("Invalid user name or password!");
+
+            await _cookieAuthService.SignIn(
+                entity.Id,
+                entity.UserName,
+                entity.UserRoles.Select(ur => ur.Role.Name).ToArray());
+
+            return Success("User logged in successfully.", entity.Id);
+        }
+
+        public async Task Logout()
+        {
+            await _cookieAuthService.SignOut();
+        }
+
+        public CommandResponse Register(UserRegisterRequest request)
+        {
+            var roleEntity = Query<Role>().SingleOrDefault(r => r.Name == "User");
+            if (roleEntity is null)
+                return Error("\"User\" role not found!");
+
+            return Create(new UserRequest
+            {
+                UserName = request.UserName,
+                Password = request.Password,
+                IsActive = true,
+
+                RoleIds = [roleEntity.Id]
+            });
         }
     }
 }
