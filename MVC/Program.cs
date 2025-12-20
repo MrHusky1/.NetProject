@@ -3,6 +3,7 @@ using APP.Models;
 using APP.Services;
 using CORE.APP.Services;
 using CORE.APP.Services.Authentication.MVC;
+using CORE.APP.Services.Session.MVC;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,15 @@ builder.Services.AddScoped<IService<UserRequest, UserResponse>, UserService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ICookieAuthService, CookieAuthService>();
+
+builder.Services.AddSession(config =>
+{
+    config.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
+builder.Services.AddScoped<SessionServiceBase, SessionService>();
+
+builder.Services.AddScoped<ICartService, CartService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -52,6 +62,8 @@ app.UseRouting();
 app.UseAuthentication();
     
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

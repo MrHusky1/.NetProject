@@ -86,9 +86,19 @@
 						        @Html.DisplayFor(modelItem => item.AuthorId)
 					        </td>
 					        <td class="text-end w-25">
-						        <a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
-						        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;|&nbsp;
-						        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+						         @if (User.Identity.IsAuthenticated)
+                                 {
+                                    <a asp-action="Add" asp-controller="Carts" asp-route-productId="@item.Id">Add to Cart</a>
+                                    @:&nbsp;|&nbsp;
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+						                @:&nbsp;|&nbsp;
+						                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        @:&nbsp;|&nbsp;
+						                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    }
+                                 }
 					        </td>
 				        </tr>
 		            }
