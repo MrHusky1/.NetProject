@@ -56,7 +56,7 @@
                             @Html.DisplayNameFor(model => model.IsActiveF)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Group)
+                            @Html.DisplayNameFor(model => model.GroupTitle)
                         </th>
                         <th></th>
                     </tr>
@@ -73,9 +73,9 @@
 					        <td>
 						        @Html.DisplayFor(modelItem => item.IsActiveF)
 					        </td>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.Group)
-					        </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GroupTitle)
+                            </td>
 					        <td class="text-end w-25">
                             @if (User.IsInRole("Admin"))
                             {

@@ -18,7 +18,7 @@ namespace APP.Models
         public DateTime? BirthDate { get; set; }
         [DisplayName("Registration Date")]
         public DateTime RegistrationDate { get; set; }
-        public decimal Score { get; set; }
+        public decimal? Score { get; set; }
         [DisplayName("Status")]
         public bool IsActive { get; set; }
         public string? Address { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MVC.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class BooksController : Controller
     {
         // Service injections:
