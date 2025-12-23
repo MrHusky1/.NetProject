@@ -17,9 +17,11 @@ namespace APP.Models
         public string Password { get; set; }
 
         [DisplayName("First Name")]
+        [Required(ErrorMessage = "{0} is required!")]
         public string? FirstName { get; set; }
 
         [DisplayName("Last Name")]
+        [Required(ErrorMessage = "{0} is required!")]
         public string? LastName { get; set; }
         public Genders Gender { get; set; }
 
@@ -28,7 +30,7 @@ namespace APP.Models
 
         [Range(0, 5, ErrorMessage = "{0} must be between {1} and {2}!")] 
         [Required(ErrorMessage = "{0} is required!")]
-        public decimal Score { get; set; }
+        public decimal? Score { get; set; }
 
         [DisplayName("Active")]
         public bool IsActive { get; set; }

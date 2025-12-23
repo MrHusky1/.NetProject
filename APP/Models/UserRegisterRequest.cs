@@ -23,7 +23,7 @@ namespace APP.Models
         /// Must be between 4 and 15 characters.
         /// </summary>
         [Required(ErrorMessage = "{0} is required!")]
-        [StringLength(15, MinimumLength = 4, ErrorMessage = "{0} must be minimum {2} maximum {1} characters!")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "{0} must be minimum {2} maximum {1} characters!")]
         public string Password { get; set; }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace APP.Models
         /// Must have the equal value with Password.
         /// </summary>
         [Required(ErrorMessage = "{0} is required!")]
-        [StringLength(15, MinimumLength = 4, ErrorMessage = "{0} must be minimum {2} maximum {1} characters!")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "{0} must be minimum {2} maximum {1} characters!")]
         [Compare("Password", ErrorMessage = "Password and Confirm Password must be the same!")]
         [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }

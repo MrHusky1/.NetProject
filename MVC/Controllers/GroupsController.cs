@@ -17,18 +17,21 @@ namespace MVC.Controllers
     {
         // Service injections:
         private readonly IService<GroupRequest, GroupResponse> _groupService;
+        private readonly IService<UserRequest, UserResponse> _userService;
 
         /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
         //private readonly IService<EntityRequest, EntityResponse> _EntityService;
 
         public GroupsController(
-            IService<GroupRequest, GroupResponse> groupService
+            IService<GroupRequest, GroupResponse> groupService,
+            IService<UserRequest, UserResponse> userService
 
         /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
         //, IService<EntityRequest, EntityResponse> EntityService
         )
         {
             _groupService = groupService;
+            _userService = userService;
 
             /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
             //_EntityService = EntityService;
@@ -149,14 +152,21 @@ namespace MVC.Controllers
 
         // POST: Groups/Delete
         [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
-        [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute this action.
-                                     // Overrides the Authorize defined for the controller.
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
-            // Delete item service logic:
+            var hasUsers = _userService.List().Any(u => u.GroupId == id);
+
+            if (hasUsers)
+            {
+                SetTempData("This group cannot be deleted because it has related users!");
+                return RedirectToAction(nameof(Index));
+            }
+
             var response = _groupService.Delete(id);
-            SetTempData(response.Message); // set TempData dictionary to carry the message to the redirected action's view
-            return RedirectToAction(nameof(Index)); // redirect to the Index action
+            SetTempData(response.Message);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
