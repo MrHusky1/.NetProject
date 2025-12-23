@@ -4,19 +4,25 @@ using CORE.APP.Models;
 using CORE.APP.Services;
 using CORE.APP.Services.Authentication.MVC;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Reflection;
 
 namespace APP.Services
 {
     public class UserService : Service<User>, IService<UserRequest, UserResponse>
     {
+        private readonly IService<RoleRequest, RoleResponse> _roleService;
+
+
 
         private readonly ICookieAuthService _cookieAuthService;
 
-        public UserService(DbContext db, ICookieAuthService cookieAuthService) : base(db)
+        public UserService(DbContext db, ICookieAuthService cookieAuthService, IService<RoleRequest, RoleResponse> roleService) : base(db)
         {
             // The injected cookie authentication service is assigned to this field to be used in Login and Logout methods below.
             _cookieAuthService = cookieAuthService;
+            _roleService = roleService;
+        
         }
 
         protected override IQueryable<User> Query(bool isNoTracking = true)
@@ -228,17 +234,28 @@ namespace APP.Services
 
         public CommandResponse Register(UserRegisterRequest request)
         {
-            var roleEntity = Query<Role>().SingleOrDefault(r => r.Name == "User");
-            if (roleEntity is null)
-                return Error("\"User\" role not found!");
+            var role = _roleService.List().SingleOrDefault(r => r.Name == "User");
+
+            // BAND AID: If missing, create it
+            if (role is null)
+            {
+                var createRoleResponse = _roleService.Create(new RoleRequest
+                {
+                    Name = "User"
+                });
+
+                if (!createRoleResponse.IsSuccessful)
+                    return Error("Default role could not be created.");
+
+                role = _roleService.Item(createRoleResponse.Id);
+            }
 
             return Create(new UserRequest
             {
                 UserName = request.UserName,
                 Password = request.Password,
                 IsActive = true,
-
-                RoleIds = [roleEntity.Id]
+                RoleIds = new List<int> { role.Id }
             });
         }
     }
