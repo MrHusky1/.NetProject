@@ -11,13 +11,14 @@ namespace APP.Models
         [StringLength(30, ErrorMessage = "{0} must be maximum {1} characters!")]
         public string Name { get; set; }
         public short? NumberOfPages { get; set; }
-        public DateTime PublishDate { get; set; }
+        public DateTime? PublishDate { get; set; }
         [Required(ErrorMessage = "{0} is required!")]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
         [DisplayName("Top Seller?")]
         public bool IsTopSeller { get; set; }
         [DisplayName("Author's ID")]
-        public int AuthorId { get; set; }
+        [Required(ErrorMessage = "{0} is required!")]
+        public int? AuthorId { get; set; }
 
         [DisplayName("Genres")]
         public List<int> GenreIds { get; set; }
