@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class BooksController : Controller
     {
         // Service injections:
@@ -70,6 +70,7 @@ namespace MVC.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
@@ -78,6 +79,7 @@ namespace MVC.Controllers
 
         // POST: Books/Create
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(BookRequest book)
         {
             if (ModelState.IsValid) // check data annotation validation errors in the request
@@ -96,6 +98,7 @@ namespace MVC.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             // Get item to edit service logic:
@@ -106,6 +109,7 @@ namespace MVC.Controllers
 
         // POST: Books/Edit
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(BookRequest book)
         {
             if (ModelState.IsValid) // check data annotation validation errors in the request
@@ -124,6 +128,7 @@ namespace MVC.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             // Get item to delete service logic:
@@ -133,6 +138,7 @@ namespace MVC.Controllers
 
         // POST: Books/Delete
         [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             // Delete item service logic:
