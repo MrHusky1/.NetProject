@@ -79,10 +79,10 @@ namespace APP.Services
             {
                 Name = request.Name,
                 NumberOfPages = request.NumberOfPages,
-                PublishDate = request.PublishDate,
-                Price = request.Price,
+                PublishDate = request.PublishDate.Value,
+                Price = request.Price.Value,
                 IsTopSeller = request.IsTopSeller,
-                AuthorId = request.AuthorId,
+                AuthorId = request.AuthorId.Value,
                 GenreIds = request.GenreIds,
             };
 
@@ -104,10 +104,10 @@ namespace APP.Services
 
             entity.Name = request.Name;
             entity.NumberOfPages = request.NumberOfPages;
-            entity.PublishDate = request.PublishDate;
-            entity.Price = request.Price;
+            entity.PublishDate = request.PublishDate.Value;
+            entity.Price = request.Price.Value;
             entity.IsTopSeller = request.IsTopSeller;
-            entity.AuthorId = request.AuthorId;
+            entity.AuthorId = request.AuthorId.Value;
 
             entity.BookGenres = request.GenreIds?.Select(genreId => new BookGenre
             {
