@@ -69,12 +69,21 @@ namespace APP.Services
             return Success("Role updated successfully.", entity.Id);
         }
 
+        protected override IQueryable<Role> Query(bool isNoTracking = true)
+        {
+            return base.Query(isNoTracking).Include(r => r.UserRoles);
+        }
         public CommandResponse Delete(int id)
         {
             var entity = Query(false).SingleOrDefault(r => r.Id == id);
 
             if (entity is null)
                 return Error("Role not found!");
+
+            if (entity.UserRoles.Any())
+            {
+                return Error("Role has related users and cannot be deleted!");
+            }
 
             Delete(entity);
             return Success("Role deleted successfully.", entity.Id);

@@ -60,13 +60,23 @@
 						        @Html.DisplayFor(modelItem => item.Name)
 					        </td>
 					        <td class="text-end w-25">
-						        <a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
-                                @if (User.IsInRole("Admin"))
+                                @if (User.Identity.IsAuthenticated)
                                 {
-                                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-						             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    if (User.IsInRole("Admin"))
+                                    {
+
+                                        @* Escaping special characters (here &) in Razor C# code: *@
+                                        @* Way 1: *@
+                                        @* <text>&nbsp;|&nbsp;</text> *@
+                                        @* Way 2: *@
+                                        @:&nbsp;|&nbsp;
+
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        @:&nbsp;|&nbsp;
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    }
                                 }
-                               
 					        </td>
 				        </tr>
 		            }
