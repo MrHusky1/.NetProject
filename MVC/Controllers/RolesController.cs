@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MVC.Controllers
 {
-    [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute all of the actions of this controller.
+    [Authorize] 
     public class RolesController : Controller
     {
         // Service injections:
@@ -70,6 +70,7 @@ namespace MVC.Controllers
         }
 
         // GET: Roles/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
@@ -78,6 +79,7 @@ namespace MVC.Controllers
 
         // POST: Roles/Create
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(RoleRequest role)
         {
             if (ModelState.IsValid) // check data annotation validation errors in the request
@@ -96,6 +98,7 @@ namespace MVC.Controllers
         }
 
         // GET: Roles/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             // Get item to edit service logic:
@@ -106,6 +109,7 @@ namespace MVC.Controllers
 
         // POST: Roles/Edit
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(RoleRequest role)
         {
             if (ModelState.IsValid) // check data annotation validation errors in the request
@@ -124,6 +128,7 @@ namespace MVC.Controllers
         }
 
         // GET: Roles/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             // Get item to delete service logic:
@@ -133,6 +138,7 @@ namespace MVC.Controllers
 
         // POST: Roles/Delete
         [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             // Delete item service logic:

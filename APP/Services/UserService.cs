@@ -4,19 +4,25 @@ using CORE.APP.Models;
 using CORE.APP.Services;
 using CORE.APP.Services.Authentication.MVC;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Reflection;
 
 namespace APP.Services
 {
     public class UserService : Service<User>, IService<UserRequest, UserResponse>
     {
+        private readonly IService<RoleRequest, RoleResponse> _roleService;
+
+
 
         private readonly ICookieAuthService _cookieAuthService;
 
-        public UserService(DbContext db, ICookieAuthService cookieAuthService) : base(db)
+        public UserService(DbContext db, ICookieAuthService cookieAuthService, IService<RoleRequest, RoleResponse> roleService) : base(db)
         {
             // The injected cookie authentication service is assigned to this field to be used in Login and Logout methods below.
             _cookieAuthService = cookieAuthService;
+            _roleService = roleService;
+        
         }
 
         protected override IQueryable<User> Query(bool isNoTracking = true)
@@ -55,7 +61,6 @@ namespace APP.Services
                 BirthDateF = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = u.RegistrationDate.ToString("MM/dd/yyyy"),
                 ScoreF = u.Score.ToString("N1"),
-
                 Roles = u.UserRoles.Select(ur => ur.Role != null ? ur.Role.Name : string.Empty).ToList(),
                 // RoleIds = u.UserRoles.Select(ur => ur.RoleId).ToList()
 
@@ -106,6 +111,7 @@ namespace APP.Services
         {
             if (Query().Any(u => u.UserName == request.UserName.Trim() && u.IsActive == request.IsActive))
                 return Error("Active user with the same user name exists!");
+
             var entity = new User
             {
                 UserName = request.UserName,
@@ -115,7 +121,7 @@ namespace APP.Services
                 Gender = request.Gender,
                 BirthDate = request.BirthDate,
                 RegistrationDate = DateTime.Now,
-                Score = request.Score,
+                Score = (decimal)request.Score,
                 IsActive = request.IsActive,
                 Address = request.Address,
                 //CountryId = request.CountryId,
@@ -130,8 +136,15 @@ namespace APP.Services
 
         public CommandResponse Update(UserRequest request)
         {
-            if (Query().Any(u => u.Id != request.Id && u.FirstName == request.FirstName.Trim() && u.LastName == request.LastName.Trim()))
+            var trimmedFirstName = request.FirstName.Trim();
+            var trimmedLastName = request.LastName.Trim();
+
+            if (Query().Any(u => u.Id != request.Id &&
+                                 u.FirstName.ToLower() == trimmedFirstName.ToLower() &&
+                                 u.LastName.ToLower() == trimmedLastName.ToLower()))
+            {
                 return Error("User with the same first and last name exists!");
+            }
 
             var entity = Query(false).SingleOrDefault(u => u.Id == request.Id);
 
@@ -145,7 +158,7 @@ namespace APP.Services
             entity.FirstName = request.FirstName;
             entity.LastName = request.LastName;
             entity.BirthDate = request.BirthDate;
-            entity.Score = request.Score;
+            entity.Score = (decimal)request.Score;
             entity.IsActive = request.IsActive;
             entity.Address = request.Address;
             entity.CountryId = request.CountryId;
@@ -228,17 +241,25 @@ namespace APP.Services
 
         public CommandResponse Register(UserRegisterRequest request)
         {
-            var roleEntity = Query<Role>().SingleOrDefault(r => r.Name == "User");
-            if (roleEntity is null)
-                return Error("\"User\" role not found!");
+            var role = _roleService.List().SingleOrDefault(r => r.Name == "User");
+
+            if (role is null)
+            {
+                var createRoleResponse = _roleService.Create(new RoleRequest { Name = "User" });
+                if (!createRoleResponse.IsSuccessful)
+                    return Error("Default role could not be created.");
+                role = _roleService.Item(createRoleResponse.Id);
+            }
 
             return Create(new UserRequest
             {
                 UserName = request.UserName,
                 Password = request.Password,
+                FirstName = "New",        
+                LastName = "User",         
+                Score = 0,                 
                 IsActive = true,
-
-                RoleIds = [roleEntity.Id]
+                RoleIds = new List<int> { role.Id }
             });
         }
     }

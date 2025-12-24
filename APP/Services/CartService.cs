@@ -93,7 +93,8 @@ namespace APP.Services
             var book = _bookService.Item(bookId);
             if (book is not null)
             {
-                var cart = GetCart(userId);
+                var cart = _sessionService.GetSession<List<CartItem>>(SESSIONKEY) ?? new List<CartItem>();
+
                 cart.Add(new CartItem
                 {
                     UserId = userId,
@@ -102,6 +103,7 @@ namespace APP.Services
                     BookPrice = book.Price,
                     BookPriceF = book.Price.ToString("C2")
                 });
+
                 _sessionService.SetSession(SESSIONKEY, cart);
             }
         }
@@ -114,21 +116,18 @@ namespace APP.Services
         /// <param name="bookId">The unique identifier of the book to remove.</param>
         public void RemoveFromCart(int userId, int bookId)
         {
-            var cart = GetCart(userId);
+            var cart = _sessionService.GetSession<List<CartItem>>(SESSIONKEY) ?? new List<CartItem>();
             var cartItem = cart.FirstOrDefault(c => c.UserId == userId && c.BookId == bookId);
             if (cartItem is not null)
+            {
                 cart.Remove(cartItem);
-            _sessionService.SetSession(SESSIONKEY, cart);
+                _sessionService.SetSession(SESSIONKEY, cart);
+            }
         }
 
-        /// <summary>
-        /// Clears all items from the user's cart by user ID.
-        /// Updates the session cart after clearing.
-        /// </summary>
-        /// <param name="userId">The unique identifier of the user.</param>
         public void ClearCart(int userId)
         {
-            var cart = GetCart(userId);
+            var cart = _sessionService.GetSession<List<CartItem>>(SESSIONKEY) ?? new List<CartItem>();
             cart.RemoveAll(c => c.UserId == userId);
             _sessionService.SetSession(SESSIONKEY, cart);
         }

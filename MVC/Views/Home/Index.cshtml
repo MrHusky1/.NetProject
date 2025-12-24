@@ -5,9 +5,9 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome to Books MVC</h1>
 
     <hr />
     <p>Version: @configuration["App:Version"]</p>
-    <p>Date: @configuration["App:Date"]</p>
+    <p>Date: @DateTime.Now.ToString("d")</p>
 </div>
