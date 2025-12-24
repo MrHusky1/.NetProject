@@ -53,10 +53,10 @@
                             @Html.DisplayNameFor(model => model.NumberOfPages)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.PublishDate)
+                            @Html.DisplayNameFor(model => model.PublishDateF)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Price)
+                            @Html.DisplayNameFor(model => model.PriceF)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.IsTopSeller)
@@ -77,10 +77,10 @@
 						        @Html.DisplayFor(modelItem => item.NumberOfPages)
 					        </td>
 					        <td>
-						        @Html.DisplayFor(modelItem => item.PublishDate)
+						        @Html.DisplayFor(modelItem => item.PublishDateF)
 					        </td>
 					        <td>
-						        @Html.DisplayFor(modelItem => item.Price)
+						        @Html.DisplayFor(modelItem => item.PriceF)
 					        </td>
 					        <td>
 						        @Html.DisplayFor(modelItem => item.IsTopSeller)
@@ -91,7 +91,7 @@
 					        <td class="text-end w-25">
 						         @if (User.Identity.IsAuthenticated)
                                  {
-                                    <a asp-action="Add" asp-controller="Carts" asp-route-productId="@item.Id">Add to Cart</a>
+                                    <a asp-action="Add" asp-controller="Carts" asp-route-bookId="@item.Id">Add to Cart</a>
                                     @:&nbsp;|&nbsp;
                                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                                     @if (User.IsInRole("Admin"))

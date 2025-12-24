@@ -35,7 +35,7 @@ namespace APP.Services
 
                 PublishDateF = b.PublishDate.ToString("MM/dd/yyyy"),
 
-                PriceF = b.Price.ToString("N2"),
+                PriceF = "$" + b.Price.ToString("N2"),
 
                 IsTopSellerF = b.IsTopSeller ? "Top Seller" : "",
 

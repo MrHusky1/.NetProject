@@ -243,17 +243,11 @@ namespace APP.Services
         {
             var role = _roleService.List().SingleOrDefault(r => r.Name == "User");
 
-            // BAND AID: If missing, create it
             if (role is null)
             {
-                var createRoleResponse = _roleService.Create(new RoleRequest
-                {
-                    Name = "User"
-                });
-
+                var createRoleResponse = _roleService.Create(new RoleRequest { Name = "User" });
                 if (!createRoleResponse.IsSuccessful)
                     return Error("Default role could not be created.");
-
                 role = _roleService.Item(createRoleResponse.Id);
             }
 
@@ -261,6 +255,9 @@ namespace APP.Services
             {
                 UserName = request.UserName,
                 Password = request.Password,
+                FirstName = "New",        
+                LastName = "User",         
+                Score = 0,                 
                 IsActive = true,
                 RoleIds = new List<int> { role.Id }
             });
