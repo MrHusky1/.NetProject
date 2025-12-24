@@ -78,8 +78,9 @@ namespace APP.Services
                     BookName = cartItemGroupedBy.Key.BookName, // grouped cart item key's book name
                     BookCount = cartItemGroupedBy.Count(), // Total quantity of this book according to the key
                     TotalPrice = cartItemGroupedBy.Sum(cartItem => cartItem.BookPrice), // Aggregate price according to the key
-                    TotalPriceF = cartItemGroupedBy.Sum(cartItem => cartItem.BookPrice).ToString("C2") // Formatted price for display
-                }).ToList();
+                    TotalPriceF = "$" + cartItemGroupedBy.Sum(cartItem => cartItem.BookPrice).ToString("N1")
+                 // Formatted price for display
+        }).ToList();
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace APP.Services
                     BookId = book.Id,
                     BookName = book.Name,
                     BookPrice = book.Price,
-                    BookPriceF = book.Price.ToString("C2")
+                    BookPriceF = "$" + book.Price.ToString("N1")
                 });
 
                 _sessionService.SetSession(SESSIONKEY, cart);

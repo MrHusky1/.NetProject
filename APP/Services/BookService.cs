@@ -16,9 +16,9 @@ namespace APP.Services
 
         protected override IQueryable<Book> Query(bool isNoTracking = true)
         {
-            // Eagerly load all relations needed for List() and Item()
             return base.Query(isNoTracking)
-                .Include(b => b.BookGenres);
+                .Include(b => b.BookGenres).ThenInclude(bg => bg.Genre)
+                .Include(b => b.Author);
         }
 
         public List<BookResponse> List()
@@ -32,14 +32,15 @@ namespace APP.Services
                 Price = b.Price,
                 IsTopSeller = b.IsTopSeller,
                 AuthorId = b.AuthorId,
+                AuthorName = b.Author.FirstName + " " + b.Author.LastName,
 
                 PublishDateF = b.PublishDate.ToString("MM/dd/yyyy"),
 
-                PriceF = "$" + b.Price.ToString("N2"),
+                PriceF = "$" + b.Price.ToString("N1"),
 
-                IsTopSellerF = b.IsTopSeller ? "Top Seller" : "",
+                IsTopSellerF = b.IsTopSeller ? "Yes" : "No",
 
-                Genres = b.BookGenres.Select(bg => bg.GenreId != null ? bg.Genre.Name : string.Empty).ToList(),
+                GenreName = b.BookGenres.Select(bg => bg.Genre.Name).FirstOrDefault()
             });
 
             return query.ToList();
@@ -60,14 +61,15 @@ namespace APP.Services
                 Price = entity.Price,
                 IsTopSeller = entity.IsTopSeller,
                 AuthorId = entity.AuthorId,
+                AuthorName = entity.Author.FirstName + " " + entity.Author.LastName,
 
                 PublishDateF = entity.PublishDate.ToString("MM/dd/yyyy"),
 
-                PriceF = entity.Price.ToString("N2"),
+                PriceF = "$" + entity.Price.ToString("N1"),
 
-                IsTopSellerF = entity.IsTopSeller ? "Top Seller" : "",
+                IsTopSellerF = entity.IsTopSeller ? "Yes" : "No",
 
-                Genres = entity.BookGenres.Select(bg => bg.GenreId != null ? bg.Genre.Name : string.Empty).ToList(),
+                GenreName = entity.BookGenres.Select(bg => bg.Genre.Name).FirstOrDefault()
             };
         }
 
@@ -83,7 +85,13 @@ namespace APP.Services
                 Price = request.Price.Value,
                 IsTopSeller = request.IsTopSeller,
                 AuthorId = request.AuthorId.Value,
-                GenreIds = request.GenreIds,
+                BookGenres = new List<BookGenre>
+                {
+                    new BookGenre
+                    {
+                        GenreId = request.GenreId.Value
+                    }
+                }
             };
 
             Create(entity);
@@ -108,14 +116,14 @@ namespace APP.Services
             entity.Price = request.Price.Value;
             entity.IsTopSeller = request.IsTopSeller;
             entity.AuthorId = request.AuthorId.Value;
-
-            entity.BookGenres = request.GenreIds?.Select(genreId => new BookGenre
+            entity.BookGenres = new List<BookGenre>
             {
-                BookId = entity.Id,
-                GenreId = genreId
-            }).ToList() ?? new List<BookGenre>();
-
-            entity.GenreIds = request.GenreIds;
+                new BookGenre
+                {
+                    GenreId = request.GenreId.Value,
+                    BookId = entity.Id
+                }
+            };
 
             Update(entity);
             return Success("Book updated successfully.", entity.Id);
@@ -149,7 +157,7 @@ namespace APP.Services
                 Price = entity.Price,
                 IsTopSeller = entity.IsTopSeller,
                 AuthorId = entity.AuthorId,
-                GenreIds = entity.GenreIds,
+                GenreId = entity.BookGenres.Select(bg => bg.GenreId).FirstOrDefault()
             };
         }
     }

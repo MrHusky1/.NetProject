@@ -14,6 +14,7 @@ namespace APP.Domain
         public decimal Price { get; set; }
         public bool IsTopSeller { get; set; }
         public int AuthorId { get; set; }
+        public Author Author { get; set; }
 
         public List<BookGenre> BookGenres { get; set; } = new List<BookGenre>();
 

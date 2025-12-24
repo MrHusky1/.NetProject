@@ -48,38 +48,46 @@
             @Html.DisplayFor(model => model.NumberOfPages)
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.PublishDate)
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.PublishDateF)
+            </div>
         </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.PublishDate)
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Price)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.PriceF)
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.Price)
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.IsTopSeller)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.IsTopSellerF)
+            </div>
         </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.Price)
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.AuthorName)
+                </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.AuthorName)
+                </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.IsTopSeller)
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.GenreName)
+                </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.GenreName)
+                </div>
         </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.IsTopSeller)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.AuthorId)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.AuthorId)
-        </div>
-    </div>
 
 @* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. 
     Raw HTML Helper is used in case string parameter may have HTML tags. *@

@@ -17,31 +17,23 @@ namespace MVC.Controllers
 
         /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
         //private readonly IService<EntityRequest, EntityResponse> _EntityService;
+        private readonly IService<AuthorRequest, AuthorResponse> _authorService;
+        private readonly IService<GenreRequest, GenreResponse> _genreService;
 
         public BooksController(
-			IService<BookRequest, BookResponse> bookService
-
-            /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
-            //, IService<EntityRequest, EntityResponse> EntityService
-        )
+        IService<BookRequest, BookResponse> bookService,
+        IService<AuthorRequest, AuthorResponse> authorService,
+        IService<GenreRequest, GenreResponse> genreService)
         {
             _bookService = bookService;
-
-            /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
-            //_EntityService = EntityService;
+            _authorService = authorService;
+            _genreService = genreService;
         }
 
         private void SetViewData()
         {
-            /* 
-            ViewBag and ViewData are the same collection (dictionary).
-            They carry extra data other than the model from a controller action to its view, or between views.
-            */
-
-            // Related items service logic to set ViewData (Id and Name parameters may need to be changed in the SelectList constructor according to the model):
-            
-            /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
-            //ViewBag.EntityIds = new MultiSelectList(_EntityService.List(), "Id", "Name");
+            ViewBag.Authors = new SelectList(_authorService.List(), "Id", "FullName");
+            ViewBag.Genres = new SelectList(_genreService.List(), "Id", "Name");
         }
 
         private void SetTempData(string message, string key = "Message")

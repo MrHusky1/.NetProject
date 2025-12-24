@@ -18,6 +18,8 @@ namespace APP.Models
         [DisplayName("Top Seller?")]
         public bool IsTopSeller { get; set; }
         public int AuthorId { get; set; }
+        [DisplayName("Author")]
+        public string AuthorName { get; set; }
 
         [DisplayName("Publish Date")]
         public string PublishDateF { get; set; }
@@ -25,6 +27,7 @@ namespace APP.Models
         public string PriceF { get; set; }
         [DisplayName("Top Seller?")]
         public string IsTopSellerF { get; set; }
-        public List<string> Genres { get; set; }
+        [DisplayName("Genre")]
+        public string GenreName { get; set; }
     }
 }

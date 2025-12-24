@@ -29,7 +29,8 @@ namespace APP.Models
         [Required(ErrorMessage = "{0} is required!")]
         public int? AuthorId { get; set; }
 
-        [DisplayName("Genres")]
-        public List<int> GenreIds { get; set; }
+        [DisplayName("Genre")]
+        [Required(ErrorMessage = "{0} is required!")]
+        public int? GenreId { get; set; }
     }
 }
